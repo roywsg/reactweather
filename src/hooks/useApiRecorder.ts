@@ -1,47 +1,87 @@
-import { useApis } from "@/apis/apis.ts";
-import { HistoryType, OpenWeatherQuery } from "@/lib/types.ts";
-import { useEffect, useState } from "react";
-import { tryParseJson } from "@/lib/helpers.ts";
+import { AppContext } from "@/context/appContext.ts";
 import { Constants } from "@/lib/constants.ts";
+import { HistoryRecord, OpenWeatherQuery } from "@/lib/types.ts";
+import axios from "axios";
+import { useQuery } from "react-query";
+import { format } from "date-fns";
+import { useState, useEffect, useContext } from "react";
+
+const _axios = axios.create({
+  baseURL: import.meta.env.VITE_OPENWEATHER_BASEURL,
+  timeout: 60000, // 60s
+});
 
 export default function useApiRecorder() {
-  const apis = useApis();
+  const appContext = useContext(AppContext);
 
-  const [histories, setHistories] = useState<HistoryType[] | null>(null);
+  const [query, setQuery] = useState<OpenWeatherQuery>({
+    city: "",
+    country: "",
+  });
+  const [run, setRun] = useState(0);
+  const [error, setError] = useState<any>(null);
 
-  useEffect(function () {
-    let h = window.localStorage.getItem(Constants.History.storageKey);
-    setHistories(tryParseJson(h));
-  }, []);
+  const { isLoading, refetch: apiRun } = useQuery(
+    "getOpenWeather",
+    async function () {
+      return await getOpenWeather(query);
+    },
+    {
+      enabled: false,
+      onSuccess: (res) => {
+        const timenow = format(new Date(), "HH:mm:ss a");
+        let id = appContext.histories ? appContext.histories.length + 1 : "1";
+        const record: HistoryRecord = {
+          id: id.toString(),
+          query: `${query.city}, ${query.country}`,
+          time: timenow,
+        };
+        addHistory(record);
+        appContext?.setWeatherData(res.data);
+      },
+      onError: (err: any) => {
+        setError(err);
+      },
+    },
+  );
 
-  async function getOpenWeather({ city, country }: OpenWeatherQuery) {
-    const now = new Intl.DateTimeFormat("en-SG").format(new Date());
-
-    try {
-      const rs = await apis.getOpenWeather({ city, country });
-      const record: HistoryType = {
-        id: "1",
-        query: `${city}, ${country}`,
-        time: now,
-      };
-      addHistory(record);
-      console.log(rs);
-    } catch (e) {
-      // handle error here
-      console.error(e);
+  // trigger api
+  useEffect(() => {
+    if (appContext.histories.length >= Constants.History.maxCount) {
+      setError(`Reach max histories, ${Constants.History.maxCount}`);
+      return;
     }
-  }
 
-  function addHistory(record: HistoryType) {
-    if (histories) {
-      setHistories([...histories, record]);
-    } else {
-      setHistories([record]);
-    }
-  }
+    if (query.city !== "" && query.country !== "") apiRun();
+  }, [run]);
 
   return {
-    getOpenWeather,
-    histories,
+    run,
+    setRun,
+    isLoading,
+    error,
+    setError,
+    setQuery,
   };
+
+  async function getOpenWeather(query: OpenWeatherQuery) {
+    return await _axios.get("/", {
+      params: {
+        q: encodeURI(`${query.city}, ${query.country}`),
+        appid: import.meta.env.VITE_OPENWEATHER_API_KEY,
+      },
+    });
+  }
+
+  function addHistory(record: HistoryRecord) {
+    if (appContext.histories) {
+      if (appContext.histories.length >= Constants.History.maxCount) {
+        setError(`Reach max histories, ${Constants.History.maxCount}`);
+        return;
+      }
+      appContext.setHistories([...appContext.histories, record]);
+    } else {
+      appContext.setHistories([record]);
+    }
+  }
 }

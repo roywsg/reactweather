@@ -1,3 +1,11 @@
 export default function footer() {
-  return <h1>footer</h1>;
+  return (
+    <footer>
+      <hr className={"my-4"} />
+      <div className={"flex justify-between items-center"}>
+        <h6>React Weather</h6>
+        <p>By Roy</p>
+      </div>
+    </footer>
+  );
 }

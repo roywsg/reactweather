@@ -1,5 +1,6 @@
 export const Constants = {
   History: {
-    storageKey: "history",
+    maxCount: 10,
+    storageKey: "histories",
   },
 };

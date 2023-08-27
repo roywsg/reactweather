@@ -3,13 +3,11 @@ export type OpenWeatherQuery = {
   country: string;
 };
 
-export type HistoryType = {
+export type HistoryRecord = {
   id: string; // eg: "1", "2' ..
   query: string; // eg: Osaka, JP
   time: string; // eg: 03:14:50 PM
 };
-
-export type HistoryRecord = OpenWeatherQuery & HistoryType;
 
 type WeatherType = {
   main: string;
@@ -19,9 +17,17 @@ type WeatherType = {
 type MainType = {
   temp: number;
   humidity: number;
+  temp_min: number;
+  temp_max: number;
 };
 
-export type OpenWeatherResult = {
-  weather: WeatherType;
+type SysType = {
+  country: string; // JP
+};
+
+export type WeatherDataType = {
+  sys: SysType;
+  name: string; // Osaka
+  weather: WeatherType[];
   main: MainType;
 };

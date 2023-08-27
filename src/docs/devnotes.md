@@ -11,13 +11,17 @@
 #### Assumptions
 - City or Country is required for search not both.
 - Max 10 histories. Start to replace the earliest entries if exceeded.
-- Max 50 char length for input boxes.
+- Max 50 length for city, 5 for country input boxes.
 - Histories stored to localstorage.
 - No error log persistence required.
 - History can contain duplicates
+- Mobile responsive
+- Light and dark mode
 
 #### Possible enhancements
 - Paginate history
 - Instead of duplicated hisory, increment frequency
 - List hisory sorted by most frequently searched
 - Protect api key with backend call instead
+- Cache fetched data
+- Clear all histories

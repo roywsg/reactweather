@@ -1,3 +1,4 @@
+import { Constants } from "@/lib/constants.ts";
 import { HistoryType } from "@/lib/types.ts";
 
 function tryParseJson(obj: any): HistoryType[] | null {
@@ -7,9 +8,14 @@ function tryParseJson(obj: any): HistoryType[] | null {
     rs = JSON.parse(obj);
   } catch (e) {
     // handle error
-    console.log(e);
+    console.error(e);
   }
   return rs;
 }
 
-export { tryParseJson };
+function getLocalHistories() {
+  let h = window.localStorage.getItem(Constants.History.storageKey);
+  return tryParseJson(h);
+}
+
+export { tryParseJson, getLocalHistories };
