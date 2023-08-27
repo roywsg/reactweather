@@ -1,0 +1,21 @@
+# Tasks
+
+- [x] Tailwind, Framer, Shadcn setup
+- [x] Get country codes
+- [ ] API call
+- [ ] Homescreen
+- [ ] Search
+- [ ] Display
+- [ ] Resuse
+- [ ] Delete
+- [ ] History
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
+- [ ] 
