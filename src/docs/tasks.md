@@ -2,20 +2,10 @@
 
 - [x] Tailwind, Framer, Shadcn setup
 - [x] Get country codes
-- [ ] API call
-- [ ] Homescreen
-- [ ] Search
-- [ ] Display
-- [ ] Resuse
-- [ ] Delete
-- [ ] History
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
+- [x] API call
+- [x] Homescreen
+- [x] Search
+- [x] Display
+- [x] Resuse
+- [x] Delete
+- [x] History
