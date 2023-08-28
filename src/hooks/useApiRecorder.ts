@@ -30,7 +30,7 @@ export default function useApiRecorder() {
       enabled: false,
       onSuccess: (res) => {
         const timenow = format(new Date(), "HH:mm:ss a");
-        let id = appContext.histories ? appContext.histories.length + 1 : "1";
+        let id = appContext?.histories ? appContext.histories.length + 1 : "1";
         const record: HistoryRecord = {
           id: id.toString(),
           query: `${query.city}, ${query.country}`,
@@ -47,7 +47,10 @@ export default function useApiRecorder() {
 
   // trigger api
   useEffect(() => {
-    if (appContext.histories.length >= Constants.History.maxCount) {
+    if (
+      appContext?.histories &&
+      appContext.histories?.length >= Constants.History.maxCount
+    ) {
       setError(`Reach max histories, ${Constants.History.maxCount}`);
       return;
     }
@@ -74,14 +77,14 @@ export default function useApiRecorder() {
   }
 
   function addHistory(record: HistoryRecord) {
-    if (appContext.histories) {
+    if (appContext?.histories) {
       if (appContext.histories.length >= Constants.History.maxCount) {
         setError(`Reach max histories, ${Constants.History.maxCount}`);
         return;
       }
       appContext.setHistories([...appContext.histories, record]);
     } else {
-      appContext.setHistories([record]);
+      appContext && appContext.setHistories([record]);
     }
   }
 }

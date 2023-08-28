@@ -20,7 +20,7 @@ export default function AppProvider({ children }: Props) {
   const [query, setQuery] = useState<OpenWeatherQuery | null>(null);
   const [weatherData, setWeatherData] = useState<WeatherDataType | null>(null);
 
-  function _setHistories(histories: HistoryRecord[]) {
+  function _setHistories(histories: HistoryRecord[] | null) {
     setHistories(histories);
     window.localStorage.setItem(
       Constants.History.storageKey,

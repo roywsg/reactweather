@@ -7,12 +7,12 @@ import { createContext } from "react";
 
 type AppContextType = {
   histories: HistoryRecord[] | null;
-  setHistories: React.Dispatch<React.SetStateAction<HistoryRecord[] | null>>;
+  setHistories: (histories: HistoryRecord[] | null) => void;
   isLoading: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean | undefined>>;
-  query: OpenWeatherQuery;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  query: OpenWeatherQuery | null;
   setQuery: React.Dispatch<React.SetStateAction<OpenWeatherQuery | null>>;
-  weatherData: WeatherDataType;
+  weatherData: WeatherDataType | null;
   setWeatherData: React.Dispatch<React.SetStateAction<WeatherDataType | null>>;
 };
 

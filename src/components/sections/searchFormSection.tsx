@@ -20,7 +20,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function SearchFormSection() {
   const appContext = useContext(AppContext);
-  const prevQuery = usePrevious<OpenWeatherQuery>(appContext.query);
+  const prevQuery = usePrevious<OpenWeatherQuery>(appContext?.query);
 
   const [formError, setFormError] = useState<any>(null);
 
@@ -33,6 +33,7 @@ export default function SearchFormSection() {
     appContext && appContext.setIsLoading(isLoading);
     if (error?.message) setFormError(error?.message);
     if (error) setFormError(error);
+    console.log(error);
   }, [isLoading, error]);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function SearchFormSection() {
       prevQuery?.city !== appContext?.query?.city ||
       prevQuery?.country !== appContext?.query?.country
     ) {
-      onSubmit(appContext.query);
+      onSubmit(appContext!.query as OpenWeatherQuery);
     }
   }, [appContext?.query]);
 
@@ -58,13 +59,13 @@ export default function SearchFormSection() {
     }
     setQuery(values);
     setRun(run + 1);
-    cityRef.current.value = values.city;
-    countryRef.current.value = values.country;
+    if (cityRef.current) cityRef.current.value = values.city;
+    if (countryRef.current) countryRef.current.value = values.country;
   }
 
   function clear() {
-    cityRef.current.value = "";
-    countryRef.current.value = "";
+    if (cityRef.current) cityRef.current.value = "";
+    if (countryRef.current) countryRef.current.value = "";
     setFormError(null);
     setError(null);
   }

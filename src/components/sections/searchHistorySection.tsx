@@ -26,9 +26,9 @@ export default function SearchHistorySection() {
   }
 
   function removeRecord(record: HistoryRecord) {
-    let idx = appContext.histories?.findIndex((x) => x.id === record.id) || -1;
-    if (idx !== -1 && appContext.histories) {
-      const h = [...appContext.histories];
+    let idx = appContext?.histories?.findIndex((x) => x.id === record.id) || -1;
+    if (idx !== -1 && appContext?.histories) {
+      const h = [...appContext!.histories];
       h.splice(idx, 1);
       appContext.setHistories(h);
     }
@@ -72,7 +72,7 @@ export default function SearchHistorySection() {
         </ol>
       )}
 
-      {!appContext.histories && (
+      {appContext && !appContext.histories && (
         <h2 className={"flex justify-center"}>No Records</h2>
       )}
 

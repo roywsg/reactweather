@@ -1,7 +1,7 @@
 import { Constants } from "@/lib/constants.ts";
-import { HistoryType } from "@/lib/types.ts";
+import { HistoryRecord } from "@/lib/types.ts";
 
-function tryParseJson(obj: any): HistoryType[] | null {
+function tryParseJson(obj: any): HistoryRecord[] | null {
   let rs = null;
 
   try {
