@@ -25,3 +25,4 @@
 - Protect api key with backend call instead
 - Cache fetched data
 - Clear all histories
+- Enhance ui with images
